@@ -1,0 +1,52 @@
+<h3 class="text-center mt-5">Buscar un cliente</h3>
+
+<form class="form-inline col-md-4 offset-md-4">
+
+  <div class="input-group">
+    <select class="form-control" id="tipoId" [(ngModel)]="clienteBuscar.tipoIdentificacion.abreviatura" name="tipoId" required
+      #nombre="ngModel">
+      <option selected>CC</option>
+      <option>TI</option>
+      <option>PEP</option>
+      <option>PAS</option>
+      <option>NIT</option>
+    </select>
+    <input class="form-control mr-sm-2" type="search" placeholder="Identificacion"
+      (keyup)="actualizarIdClienteBuscar($event)">
+    <button (click)="verDetallesDelCliente(clienteBuscar)"
+      class="btn btn-outline-success my-2 my-sm-0">Buscar</button>
+  </div>
+</form>
+
+<div class="text-center">
+  <button type="button" class="btn btn-primary mt-5" (click)="registrarCliente()">Registrar Cliente</button>
+</div>
+
+<h3 class="text-center mt-5">Listado de clientes</h3>
+
+<table class="table table-striped text-center">
+  <thead class="table-dark">
+    <tr>
+      <!-- <th>Cliente</th> -->
+      <th>Tipo de Identificacion</th>
+      <th>Identificacion</th>
+      <th>Razon Social</th>
+      <th>Fecha de registro</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cliente of clientes">
+      <!-- <td>{{cliente.id}}</td> -->
+      <td>{{cliente.tipoIdentificacion.descripcion}}</td>
+      <td>{{cliente.identificacion}}</td>
+      <td>{{cliente.razonSocial}}</td>
+      <td>{{cliente.fechaRegistro}}</td>
+      <td class="bg-success" *ngIf="cliente.estado.includes('a')">Activo</td>
+      <td class="bg-danger" *ngIf="cliente.estado.includes('i')">Inactivo</td>
+      <!-- <td>
+        <button (click)="actualizarCliente(cliente.id)" class="btn btn-secondary">Editar</button>
+      </td> -->
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,105 @@
+import swal from 'sweetalert2';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Cliente } from 'src/app/entidades/cliente';
+import { FacturaDetalle } from 'src/app/entidades/facturaDetalle';
+import { ClienteService } from 'src/app/services/cliente/cliente.service';
+import { TipoIdentificacion } from 'src/app/entidades/tipoIdentificacion';
+import { TipoIdService } from 'src/app/services/tipoId/tipo-id.service';
+import { Producto } from 'src/app/entidades/producto';
+import { ProductoService } from 'src/app/services/producto/producto.service';
+
+@Component({
+  selector: 'app-venta',
+  templateUrl: './venta.component.html',
+  styleUrls: ['./venta.component.css']
+})
+export class VentaComponent implements OnInit {
+
+  constructor(
+    private clienteServicio: ClienteService,
+    private tipoIdServicio: TipoIdService,
+    private productoServicio: ProductoService,
+    private router: Router) { }
+
+  ocultarBusquedaDeCliente = false;
+  ocultarMenuVenta = true;
+
+  productoAgregar:Producto = new Producto();
+  producto:Producto = new Producto();
+
+  listaTiposId: TipoIdentificacion[];
+
+  clienteBuscar: Cliente = new Cliente();
+  cliente: Cliente = new Cliente();
+
+  totalVentaActual:number = 0;
+  ventaActual: FacturaDetalle[] = [];
+  facturaDetalleActual: FacturaDetalle = new FacturaDetalle();
+
+  ngOnInit(): void {
+    this.cargarTiposId();
+  }
+
+  buscarCliente() {
+    let datos = this.clienteBuscar.tipoIdentificacion.abreviatura + "-" + this.clienteBuscar.identificacion;
+
+    this.clienteServicio.obtenerClientePorIdentificacion(datos).subscribe(dato => {
+      this.cliente = dato;
+      if (dato === null) {
+        swal.fire('Error', `El cliente no existe`, `error`);
+      }
+      else {
+        this.clienteEncontrado();
+      }
+    });
+
+  }
+
+  actualizarTipoIdBuscar(event: Event) {
+    const element = event.target as HTMLInputElement;
+    this.clienteBuscar.tipoIdentificacion = this.listaTiposId.find(({ descripcion }) => descripcion === element.value);
+    console.log("tipo id actualizado: " + this.clienteBuscar.tipoIdentificacion.abreviatura);
+  }
+
+  actualizarIdentificacionBuscar(event: Event) {
+    const element = event.target as HTMLInputElement;
+    this.clienteBuscar.identificacion = element.value;
+    console.log("id actualizado: " + this.clienteBuscar.identificacion);
+  }
+
+  cargarTiposId() {
+    this.tipoIdServicio.obtenerListaDeTiposId().subscribe(dato => {
+      this.listaTiposId = dato;
+    })
+  }
+
+  clienteEncontrado() {
+    this.ocultarBusquedaDeCliente = true;
+    this.ocultarMenuVenta = false;
+  }
+
+  agregarProducto() {
+    let aux = Object.create(this.facturaDetalleActual);
+    this.ventaActual.push(aux);
+    // this.facturaDetalleActual = null;
+    this.productoAgregar = undefined;
+  }
+
+  actualizarDatosProducto(event: Event){
+    const element = event.target as HTMLInputElement;
+    let res: Observable<Producto> = this.productoServicio.obtenerProductoPorId(Number.parseInt(element.value));
+    res.subscribe(dato => {
+      this.productoAgregar = dato;
+      this.producto = dato;
+    }, error => swal.fire('Error', `El producto no existe`, `error`));
+  }
+
+  actualizarCantidad(event: Event){
+    const element = event.target as HTMLInputElement;
+    this.facturaDetalleActual.producto = this.productoAgregar;
+    this.facturaDetalleActual.cantidad = Number.parseInt(element.value);
+  }
+
+}

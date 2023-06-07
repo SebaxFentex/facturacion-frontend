@@ -1,0 +1,29 @@
+<h2 class="text-center mt-5">Cliente: {{cliente.razonSocial}}</h2>
+
+<table class="table table-striped text-center">
+  <thead class="table-dark">
+    <tr>
+      <!-- <th>Cliente</th> -->
+      <th>Tipo de Identificacion</th>
+      <th>Identificacion</th>
+      <th>Razon Social</th>
+      <th>Fecha de registro</th>
+      <th>Estado</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td>{{cliente.id}}</td> -->
+      <td>{{cliente.tipoIdentificacion.descripcion}}</td>
+      <td>{{cliente.identificacion}}</td>
+      <td>{{cliente.razonSocial}}</td>
+      <td>{{cliente.fechaRegistro}}</td>
+      <td class="bg-success" *ngIf="cliente.estado.includes('a')">Activo</td>
+      <td class="bg-danger" *ngIf="cliente.estado.includes('i')">Inactivo</td>
+      <td>
+        <button (click)="actualizarCliente(cliente.id)" class="btn btn-primary">Editar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

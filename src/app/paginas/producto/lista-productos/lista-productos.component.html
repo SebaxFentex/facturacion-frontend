@@ -1,0 +1,35 @@
+<h3 class="text-center mt-5">Buscar un Producto</h3>
+
+<form class="form-inline col-md-4 offset-md-4">
+
+  <div class="input-group">
+    <input class="form-control mr-sm-2" type="search" placeholder="id Producto"
+      (keyup)="actualizarIdProductoBuscar($event)">
+    <button (click)="verDetallesDelProducto(productoBuscar)"
+      class="btn btn-outline-success my-2 my-sm-0">Buscar</button>
+  </div>
+</form>
+
+<div class="text-center">
+  <button type="button" class="btn btn-primary mt-5" (click)="registrarProducto()">Registrar Producto</button>
+</div>
+
+<h3 class="text-center mt-5">Listado de productos</h3>
+
+<table class="table table-striped text-center">
+  <thead class="table-dark">
+    <tr>
+      <th>Nombre</th>
+      <th>Valor Unitario</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let producto of productos">
+      <td>{{producto.nombre}}</td>
+      <td>{{producto.valorUnitario}}</td>
+      <td class="bg-success" *ngIf="producto.estado.includes('disponible')">Disponible</td>
+      <td class="bg-danger" *ngIf="producto.estado.includes('agotado')">Agotado</td>
+    </tr>
+  </tbody>
+</table>

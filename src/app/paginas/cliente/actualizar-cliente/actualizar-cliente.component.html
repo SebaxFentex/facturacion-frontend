@@ -1,0 +1,38 @@
+<div class="col-md-6 offset-md-3">
+  <h2 class="text-center mt-5">Edición de Cliente</h2>
+  <form class="mt-5 align-self-center" (ngSubmit)= "onSubmit()" #clienteForm = "ngForm">
+
+    <div class="form-group">
+      <label>Razon Social : </label>
+      <input type = "text"
+        class="form-control"
+        id = "razonSocial"
+        [(ngModel)] = "cliente.razonSocial"
+        name = "razonSocial"
+        required
+        maxlength="100"
+        placeholder="Digite nombre o razon social"
+        #nombre = "ngModel">
+        <div class="alert alert-danger" *ngIf= "nombre.invalid">
+        <div *ngIf = "nombre.errors['required']">
+          Digite nombre o razon social
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Estado: </label>
+      <select class="form-control"
+      id="estado"
+      [(ngModel)] = "cliente.estado"
+      name = "estado"
+      required
+      #nombre = "ngModel">
+        <option>Activo</option>
+        <option>Inactivo</option>
+      </select>
+    </div>
+
+    <button class="btn btn-success mt-5" [disabled]= "!clienteForm.form.valid">Guardar</button>
+  </form>
+</div>

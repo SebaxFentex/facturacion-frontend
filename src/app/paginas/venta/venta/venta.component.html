@@ -1,0 +1,84 @@
+<div class="container">
+  <div [hidden]="ocultarBusquedaDeCliente" id="maquetaBuscarCliente">
+    <h3 class="text-center mt-5">Cliente a facturar</h3>
+    <form class="row gy-2 gx-3 justify-content-center">
+
+      <div class="col-auto">
+        <select class="form-select" id="tipoIdSelect" (change)="actualizarTipoIdBuscar($event)">
+          <option selected disabled>Tipo de identificacion</option>
+          <option *ngFor="let tipoId of listaTiposId">{{tipoId.descripcion}}</option>
+        </select>
+      </div>
+
+      <div class="col-auto">
+        <input type="text" class="form-control" id="identificacionInput" placeholder="Identificacion" (change)="actualizarIdentificacionBuscar($event)">
+      </div>
+
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary" (click)="buscarCliente()">Buscar</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div [hidden]="ocultarMenuVenta" id="maquetaVenta">
+    <h3 class="text-center mt-5">Venta para {{cliente.razonSocial}} con identificacion {{cliente.identificacion}}</h3>
+
+    <table class="table table-striped text-center">
+      <thead class="table-dark">
+        <tr>
+          <!-- <th>Cliente</th> -->
+          <th>Codigo</th>
+          <th>Nombre</th>
+          <th>Valor unitario</th>
+          <th>Cantidad</th>
+          <th>Total</th>
+          <th>Accion</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- FILA QUE LISTA LOS PRODUCTOS CON NGFOR -->
+
+        <tr *ngFor="let elemento of ventaActual">
+          <td>{{elemento.producto.id}}</td>
+          <td>{{elemento.producto.nombre}}</td>
+          <td>{{elemento.producto.valorUnitario}}</td>
+          <td>{{elemento.cantidad}}</td>
+          <td>{{elemento.producto.valorUnitario * elemento.cantidad}}</td>
+          <td>
+            <button class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+        <!-- FILA DE AGREGAR MAS PRODUCTOS -->
+        <tr>
+          <td>
+            <input type="text" class="form-control" id="idProducto" placeholder="Codigo producto" [(ngModel)]="productoAgregar.id" (change)="actualizarDatosProducto($event)">
+          </td>
+          <td [textContent]="productoAgregar.nombre"></td>
+          <td [textContent]="productoAgregar.valorUnitario"></td>
+          <td>
+            <input type="text" class="form-control" id="cantidad" placeholder="Cantidad" [(ngModel)]="facturaDetalleActual.cantidad" (change)="actualizarCantidad($event)">
+          </td>
+          <td [textContent]="productoAgregar.valorUnitario * facturaDetalleActual.cantidad"></td>
+          <td>
+            <button class="btn btn-primary" (click)="agregarProducto()">Agregar</button>
+          </td>
+        </tr>
+
+        <!-- FILA PARA MOSTRAR EL TOTAL -->
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>TOTAL DE LA VENTA:</td>
+          <td [textContent]="totalVentaActual"></td>
+          <!-- <td>
+            <button class="btn btn-primary" (click)="calcularTotal()">Sumar</button>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

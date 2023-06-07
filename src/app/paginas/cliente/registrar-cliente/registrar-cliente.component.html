@@ -1,0 +1,41 @@
+<div class="col-md-6 offset-md-3">
+  <h2 class="text-center mt-5">Registro de Cliente</h2>
+  <form class="mt-5 align-self-center" (ngSubmit)="onSubmit()" #clienteForm="ngForm">
+
+    <div class="form-group mt-2">
+      <label>Tipo de identificacion: </label>
+      <select class="form-control" id="tipoId" [(ngModel)]="this.cliente.tipoIdentificacion.abreviatura" name="tipoId" required>
+        <option>CC</option>
+        <option>TI</option>
+        <option>PAS</option>
+        <option>NIT</option>
+        <option>PEP</option>
+      </select>
+    </div>
+
+    <div class="form-group mt-2">
+      <label>Numero de identificacion : </label>
+      <input type="text" class="form-control" id="identificacion" [(ngModel)]="cliente.identificacion"
+        name="identificacion" required maxlength="100" placeholder="Digite el numero de identificacion"
+        #identificacion="ngModel">
+      <div class="alert alert-danger" *ngIf="identificacion.invalid">
+        <div *ngIf="identificacion.errors['required']">
+          El numero de identificacion no puede estar vacio
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group mt-2">
+      <label>Razon Social : </label>
+      <input type="text" class="form-control" id="razonSocial" [(ngModel)]="cliente.razonSocial" name="razonSocial"
+        required maxlength="100" placeholder="Digite nombre o razon social" #razonSocial="ngModel">
+      <div class="alert alert-danger" *ngIf="razonSocial.invalid">
+        <div *ngIf="razonSocial.errors['required']">
+          Digite nombre o razon social
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-success mt-5" [disabled]="!clienteForm.form.valid">Guardar</button>
+  </form>
+</div>

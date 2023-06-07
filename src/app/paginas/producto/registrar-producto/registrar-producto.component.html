@@ -1,0 +1,38 @@
+<div class="col-md-6 offset-md-3">
+  <h2 class="text-center mt-5">Registro de Producto</h2>
+  <form class="mt-5 align-self-center" (ngSubmit)="onSubmit()" #clienteForm="ngForm">
+
+    <div class="form-group mt-2">
+      <label>Estado: </label>
+      <select class="form-control" id="estado" [(ngModel)]="this.producto.estado" name="tipoId" required>
+        <option>disponible</option>
+        <option>agotado</option>
+      </select>
+    </div>
+
+    <div class="form-group mt-2">
+      <label>Nombre : </label>
+      <input type="text" class="form-control" id="nombre" [(ngModel)]="producto.nombre"
+        name="nombre" required maxlength="100" placeholder="Digite el nombre del producto"
+        #nombre="ngModel">
+      <div class="alert alert-danger" *ngIf="nombre.invalid">
+        <div *ngIf="nombre.errors['required']">
+          El nombre no puede estar vacio
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group mt-2">
+      <label>Valor unitario : </label>
+      <input type="text" class="form-control" id="valorUnitario" [(ngModel)]="producto.valorUnitario" name="valorUnitario"
+        required maxlength="100" placeholder="Digite el valor unitario" #valorUnitario="ngModel">
+      <div class="alert alert-danger" *ngIf="valorUnitario.invalid">
+        <div *ngIf="valorUnitario.errors['required']">
+          El valor unitario no puede estar vacio
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-success mt-5" [disabled]="!clienteForm.form.valid">Guardar</button>
+  </form>
+</div>
